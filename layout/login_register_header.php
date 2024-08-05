@@ -1,4 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary py-3">
+<?php
+echo '<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary py-3">
     <div class="container container-fluid">
         <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
@@ -13,4 +14,4 @@
             <a href="/NeoMall/account/register.php" class="btn btn-primary">Register</a>
         </div>
     </div>
-</nav>
+</nav>';
