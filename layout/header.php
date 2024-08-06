@@ -37,6 +37,7 @@
                 echo '<div class="dropdown">
                         <a data-mdb-dropdown-init class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" aria-expanded="false">
                             <i class="fa-solid fa-user fa-lg" style="color: #0c0d0d;"></i>
+                            <span class="ps-2 text-black">'; echo $_SESSION["username"]; echo '</span>
                         </a>
                     <ul class="dropdown-menu dropdown-menu-start mt-3" aria-labelledby="navbarDropdownMenuAvatar">';
 
@@ -68,7 +69,7 @@
                 // Admin
                 if ($_SESSION["role"] == "admin") {
                     echo '<li>
-                            <a class="dropdown-item" href="#">Manage Admin</a>
+                            <a class="dropdown-item" href="/NeoMall/admin/manage-admin.php">Manage Admin</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="#">Manage Categories</a>
