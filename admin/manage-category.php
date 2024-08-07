@@ -92,6 +92,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
             </div>
+            <div class="card-body bg-light">
+                <?php
+                $query = mysqli_query($conn, "SELECT * FROM categories");
+                while ($data = mysqli_fetch_assoc($query)) { ?>
+                    <div class="row">
+                        <div class="col d-flex justify-content-start">
+                            <div class="p-1" style="font-size: 18px;"><?= $data['name'] ?></div>
+                        </div>
+    
+                        <div class="col d-flex justify-content-end">
+                            <a onclick="if (confirm('Are you sure want to delete this category?')) {
+                            window.location.href='/NeoMall/admin/delete-category.php?id=<?= $data['id'] ?>' }" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                    <hr>
+                <?php } ?>
+            </div>
         </div>
     </div>
 </body>
