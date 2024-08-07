@@ -72,7 +72,7 @@
                             <a class="dropdown-item" href="/NeoMall/admin/manage-admin.php">Manage Admin</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Manage Categories</a>
+                            <a class="dropdown-item" href="/NeoMall/admin/manage-category.php">Manage Categories</a>
                         </li>';
                 }
                 // Admin
