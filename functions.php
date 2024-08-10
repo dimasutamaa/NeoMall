@@ -11,3 +11,46 @@ function random_password()
 
     return $random_password;
 }
+
+function upload_logo()
+{
+    $target_dir = "../assets/logo/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $uploadErr = "";
+
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if ($check !== false) {
+        $uploadOk = 1;
+    } else {
+        $uploadOk = 0;
+    }
+
+    if (file_exists($target_file)) {
+        $uploadErr = "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        $uploadErr = "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        $uploadErr = "Sorry, only JPG, JPEG, and PNG files are allowed.";
+        $uploadOk = 0;
+    }
+
+    if ($uploadOk == 1) {
+        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+    }
+
+    $data = [
+        "uploadErr" => $uploadErr,
+        "uploadOk" => $uploadOk,
+        "filePath" => $uploadOk ? $target_file : null
+    ];
+
+    return $data;
+}
