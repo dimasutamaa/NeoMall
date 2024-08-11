@@ -1,6 +1,6 @@
 <?php
 include("../config.php");
-require("../functions.php");
+require("../functions/admin.php");
 
 session_start();
 
@@ -22,62 +22,17 @@ if (isset($_GET["id"])) {
     $row = mysqli_fetch_assoc($result);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        try {
-            if (empty($_POST["username"])) {
-                $usernameErr = "Name is required";
-            } else {
-                $username = $_POST["username"];
+        $data = update_partner($_POST, $id, $row, $_FILES);
 
-                if (strlen($username) < 5) {
-                    $usernameErr = "Name must have at least five characters";
-                }
-            }
+        $username = $data['username'];
+        $email = $data['email'];
+        $phone = $data['phone'];
+        $logo = $data['logo'];
 
-            if (empty($_POST["email"])) {
-                $emailErr = "Email is required";
-            } else {
-                $email = $_POST["email"];
-
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $emailErr = "Invalid email format";
-                }
-            }
-
-            if (empty($_POST["phone"])) {
-                $phoneErr = "Phone is required";
-            } else {
-                $phone = $_POST["phone"];
-
-                if (!filter_var($phone, FILTER_VALIDATE_INT)) {
-                    $phoneErr = "Phone must be number only";
-                }
-            }
-
-            if (empty($_FILES["fileToUpload"]["name"])) {
-                $logo = $row["logo"];
-            } else {
-                $data = upload_logo();
-    
-                if ($data["uploadOk"] == 1) {
-                    unlink($row["logo"]);
-                    $logo = $data["filePath"];
-                } else {
-                    $logoErr = $data["uploadErr"];
-                }
-            }
-
-            if (empty($usernameErr) && empty($emailErr) && empty($phoneErr) && empty($logoErr)) {
-                $query = "UPDATE partners SET username = '$username', email = '$email', phone = '$phone', logo = '$logo' WHERE id = $id";
-
-                if ($conn->query($query)) {
-                    header("location: /NeoMall/admin/index.php");
-                } else {
-                    echo "Data Failed to Save!";
-                }
-            }
-        } catch (mysqli_sql_exception) {
-            $usernameErr = "Name has been used";
-        }
+        $usernameErr = $data['usernameErr'];
+        $emailErr = $data['emailErr'];
+        $phoneErr = $data['phoneErr'];
+        $logoErr = $data['logoErr'];
     }
 }
 ?>

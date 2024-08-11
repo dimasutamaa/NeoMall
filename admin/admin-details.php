@@ -1,5 +1,6 @@
 <?php
 include("../config.php");
+require("../functions/admin.php");
 
 session_start();
 
@@ -21,60 +22,17 @@ if (isset($_GET["id"])) {
     $row = mysqli_fetch_assoc($result);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        try {
-            if (empty($_POST["username"])) {
-                $usernameErr = "Username is required";
-            } else {
-                $username = $_POST["username"];
+        $data = update_admin($_POST, $id);
 
-                if (!preg_match("/^[a-zA-Z-' ]*$/", $username)) {
-                    $usernameErr = "Only letters and white space allowed";
-                }
+        $username = $data['username'];
+        $email = $data['email'];
+        $phone = $data['phone'];
+        $gender = $data['gender'];
 
-                if (strlen($username) < 5) {
-                    $usernameErr = "Username must have at least five characters";
-                }
-            }
-
-            if (empty($_POST["email"])) {
-                $emailErr = "Email is required";
-            } else {
-                $email = $_POST["email"];
-
-                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $emailErr = "Invalid email format";
-                }
-            }
-
-            if (empty($_POST["phone"])) {
-                $phoneErr = "Phone is required";
-            } else {
-                $phone = $_POST["phone"];
-
-                if (!filter_var($phone, FILTER_VALIDATE_INT)) {
-                    $phoneErr = "Phone must be number only";
-                }
-            }
-
-            if (empty($_POST["gender"])) {
-                $genderErr = "Gender is required";
-            } else {
-                $gender = $_POST["gender"];
-            }
-
-            if (empty($usernameErr) && empty($emailErr) && empty($phoneErr) && empty($genderErr)) {
-
-                $query = "UPDATE admins SET username = '$username', email = '$email', phone = '$phone', gender = '$gender' WHERE id = $id";
-
-                if ($conn->query($query)) {
-                    header("location: /NeoMall/admin/manage-admin.php");
-                } else {
-                    echo "Data Failed to Save!";
-                }
-            }
-        } catch (mysqli_sql_exception) {
-            $usernameErr = "Username has been used";
-        }
+        $usernameErr = $data['usernameErr'];
+        $emailErr = $data['emailErr'];
+        $phoneErr = $data['phoneErr'];
+        $genderErr = $data['genderErr'];
     }
 }
 ?>

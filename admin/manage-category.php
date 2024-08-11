@@ -1,5 +1,6 @@
 <?php
 include("../config.php");
+require("../functions/admin.php");
 
 session_start();
 
@@ -15,23 +16,10 @@ if ($_SESSION["role"] == "partner") {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        if (empty($_POST["category_name"])) {
-            $categoryErr = "Category is required";
-        } else {
-            $category_name = $_POST["category_name"];
+    $data = add_category($_POST);
 
-            if (!preg_match("/^[a-zA-Z-' ]*$/", $category_name)) {
-                $categoryErr = "Only letters and white space allowed";
-            }
-        }
-
-        if (empty($categoryErr)) {
-            $result = mysqli_query($conn, "INSERT INTO categories (name) VALUES ('$category_name')");
-        }
-    } catch (mysqli_sql_exception $e) {
-        $categoryErr = "Category name has been used";
-    }
+    $category_name = $data['category_name'];
+    $categoryErr = $data['categoryErr'];
 }
 ?>
 
