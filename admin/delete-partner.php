@@ -1,19 +1,31 @@
 <?php
 include("../config.php");
 
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
+session_start();
 
-    $query = mysqli_query($conn, "SELECT * FROM partners WHERE id = $id");
-    $data = mysqli_fetch_assoc($query);
+if (!isset($_SESSION["isLogin"]) || $_SESSION["role"] == "customer") {
+    header("location: /NeoMall/index.php");
+}
 
-    unlink($data['logo']);
+if ($_SESSION["role"] == "partner") {
+    header("location: /NeoMall/brand-partner/index.php");
+}
 
-    $result = mysqli_query($conn, "DELETE FROM partners WHERE id = $id");
+if ($_SESSION["role"] == "admin") {
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
 
-    if ($result) {
-        header("location: /NeoMall/admin/index.php");
-    } else {
-        echo "Failed to delete";
+        $query = mysqli_query($conn, "SELECT * FROM partners WHERE id = $id");
+        $data = mysqli_fetch_assoc($query);
+
+        unlink($data['logo']);
+
+        $result = mysqli_query($conn, "DELETE FROM partners WHERE id = $id");
+
+        if ($result) {
+            header("location: /NeoMall/admin/index.php");
+        } else {
+            echo "Failed to delete";
+        }
     }
 }

@@ -1,14 +1,26 @@
 <?php
 include("../config.php");
 
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
+session_start();
 
-    $result = mysqli_query($conn, "DELETE FROM admins WHERE id = $id");
+if (!isset($_SESSION["isLogin"]) || $_SESSION["role"] == "customer") {
+    header("location: /NeoMall/index.php");
+}
 
-    if ($result) {
-        header("location: /NeoMall/admin/manage-admin.php");
-    } else {
-        echo "Failed to delete";
+if ($_SESSION["role"] == "partner") {
+    header("location: /NeoMall/brand-partner/index.php");
+}
+
+if ($_SESSION["role"] == "admin") {
+    if (isset($_GET["id"])) {
+        $id = $_GET["id"];
+    
+        $result = mysqli_query($conn, "DELETE FROM admins WHERE id = $id");
+    
+        if ($result) {
+            header("location: /NeoMall/admin/manage-admin.php");
+        } else {
+            echo "Failed to delete";
+        }
     }
 }
