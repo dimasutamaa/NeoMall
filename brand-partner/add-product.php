@@ -96,8 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="">Choose Category</option>
                             <?php
                             $query = mysqli_query($conn, "SELECT * FROM categories");
-                            while ($category = mysqli_fetch_assoc($query)) { ?>
-                                <option value="<?= $category["id"] ?>"><?= $category["name"] ?></option>
+                            while ($categories = mysqli_fetch_assoc($query)) {
+                                $isSelected = ($category == $categories["id"]) ? "selected" : "" ?>
+                                <option value="<?= $categories["id"] ?>" <?= $isSelected ?>><?= $categories["name"] ?></option>
                             <?php } ?>
                         </select>
                         <div id="categoryErr" class="form-text text-danger"><?= $categoryErr ?></div>
