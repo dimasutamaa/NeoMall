@@ -14,7 +14,7 @@ function random_password()
 
 function upload($path)
 {
-    $target_dir = "../assets/".$path."/";
+    $target_dir = "../assets/" . $path . "/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -53,4 +53,14 @@ function upload($path)
     ];
 
     return $data;
+}
+
+function getCategoryById($data)
+{
+    global $conn;
+
+    $query = mysqli_query($conn, "SELECT name FROM categories WHERE id = '$data'");
+    $category = mysqli_fetch_column($query);
+
+    return $category;
 }

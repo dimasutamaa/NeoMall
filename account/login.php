@@ -52,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION["id"] = $data["id"];
                     $_SESSION["username"] = $data["username"];
                     $_SESSION["email"] = $data["email"];
+                    $_SESSION["phone"] = $data["phone"];
+                    $_SESSION["logo"] = $data["logo"];
                     $_SESSION["role"] = $data["role"];
                     $_SESSION["isLogin"] = true;
 

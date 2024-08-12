@@ -58,7 +58,7 @@
                             <a class="dropdown-item" href="#">Completed Orders</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Manage Products</a>
+                            <a class="dropdown-item" href="/NeoMall/brand-partner/manage-product.php">Manage Products</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="#">Settings</a>
