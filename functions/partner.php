@@ -160,3 +160,39 @@ function update_product($data, $upload, $id, $row)
         'categoryErr' => $categoryErr,
     ];
 }
+
+function settings($upload, $id, $partner)
+{
+    global $conn;
+
+    $logo = "";
+    $logoErr = "";
+
+    if (empty($upload["fileToUpload"]["name"])) {
+        $logo = $partner["logo"];
+    } else {
+        $result = upload("logo");
+
+        if ($result["uploadOk"] == 1) {
+            unlink($partner["logo"]);
+            $logo = $result["filePath"];
+        } else {
+            $logoErr = $result["uploadErr"];
+        }
+    }
+
+    if (empty($logoErr)) {
+        $query = "UPDATE partners SET logo = '$logo' WHERE id = '$id'";
+
+        if ($conn->query($query)) {
+            header("location: /NeoMall/brand-partner/index.php");
+        } else {
+            echo "Data Failed to Save!";
+        }
+    }
+
+    return [
+        'logo' => $logo,
+        'logoErr' => $logoErr
+    ];
+}

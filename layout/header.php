@@ -61,7 +61,7 @@
                             <a class="dropdown-item" href="/NeoMall/brand-partner/manage-product.php">Manage Products</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="/NeoMall/brand-partner/settings.php">Settings</a>
                         </li>';
                 }
                 // Brand Partner
