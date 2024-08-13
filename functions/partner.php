@@ -176,6 +176,7 @@ function settings($upload, $id, $partner)
         if ($result["uploadOk"] == 1) {
             unlink($partner["logo"]);
             $logo = $result["filePath"];
+            $_SESSION["logo"] = $logo;
         } else {
             $logoErr = $result["uploadErr"];
         }
