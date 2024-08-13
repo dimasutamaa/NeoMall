@@ -196,3 +196,61 @@ function settings($upload, $id, $partner)
         'logoErr' => $logoErr
     ];
 }
+
+function change_password($data, $id)
+{
+    global $conn;
+
+    $current_password = $new_password = $confirm_password = "";
+    $currentPassErr = $newPasswordErr = $confirmPassErr = "";
+
+    if (empty($data["current_password"])) {
+        $currentPassErr = "Current Password is required";
+    } else {
+        $current_password = $data["current_password"];
+    }
+
+    if (empty($data["new_password"])) {
+        $newPasswordErr = "New Password is required";
+    } else {
+        $new_password = $data["new_password"];
+    }
+
+    if (empty($data["confirm_password"])) {
+        $confirmPassErr = "Confirm Password is required";
+    } else {
+        $confirm_password = $data["confirm_password"];
+
+        if ($confirm_password != $new_password) {
+            $confirmPassErr = "Confirm password does not match.";
+        }
+    }
+
+    $query = mysqli_query($conn, "SELECT * FROM partners WHERE id = '$id'");
+    $partner = mysqli_fetch_assoc($query);
+
+    if (password_verify($current_password, $partner["password"])) {
+        if (empty($currentPassErr) && empty($newPasswordErr) && empty($confirmPassErr)) {
+            $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+            $query = "UPDATE partners SET password = '$hashed_new_password' WHERE id = '$id'";
+
+            if ($conn->query($query)) {
+                header("location: /NeoMall/brand-partner/index.php");
+            } else {
+                echo "Data Failed to Save!";
+            }
+        }
+    } else {
+        $currentPassErr = "Invalid password";
+    }
+
+    return [
+        'current_password' => $current_password,
+        'new_password' => $new_password,
+        'confirm_password' => $confirm_password,
+        'currentPassErr' => $currentPassErr,
+        'newPasswordErr' => $newPasswordErr,
+        'confirmPassErr' => $confirmPassErr,
+    ];
+}
