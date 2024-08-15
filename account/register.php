@@ -1,5 +1,6 @@
 <?php
 include("../config.php");
+require("../functions/account.php");
 
 session_start();
 
@@ -11,52 +12,17 @@ if (isset($_SESSION["isLogin"])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
-        if (empty($_POST['username'])) {
-            $usernameErr = "Username is required.";
-        } else {
-            $username = mysqli_real_escape_string($conn, $_POST['username']);
-        }
+    $data = register($_POST);
 
-        if (empty($_POST['email'])) {
-            $emailErr = "Email is required.";
-        } else {
-            $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $username = $data['username'];
+    $email = $data['email'];
+    $password = $data['password'];
+    $confirm = $data['confirm'];
 
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $emailErr = "Invalid email format";
-            }
-        }
-
-        if (empty($_POST['password'])) {
-            $passwordErr = "Password is required.";
-        } else {
-            $password = mysqli_real_escape_string($conn, $_POST['password']);
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        }
-
-        if (empty($_POST['confirm_password'])) {
-            $confirmErr = "Confirm password is required.";
-        } else {
-            $confirm = mysqli_real_escape_string($conn, $_POST['confirm_password']);
-
-            if ($confirm != $password) {
-                $confirmErr = "Confirm password does not match.";
-            }
-        }
-
-        if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($confirmErr)) {
-            $query = "INSERT INTO customers(username, email, password, role) VALUES('$username', '$email', '$hashed_password', 'customer')";
-
-            if ($conn->query($query)) {
-                header("location: /NeoMall/account/login.php");
-            } else {
-                echo "Failed to register.";
-            }
-        }
-    } catch (mysqli_sql_exception $e) {
-        $usernameErr = "Username has been used";
-    }
+    $usernameErr = $data['usernameErr'];
+    $emailErr = $data['emailErr'];
+    $passwordErr = $data['passwordErr'];
+    $confirmErr = $data['confirmErr'];
 }
 ?>
 

@@ -1,5 +1,6 @@
 <?php
 include("../config.php");
+require("../functions/account.php");
 
 session_start();
 
@@ -11,81 +12,13 @@ if (isset($_SESSION["isLogin"])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (empty($_POST['username'])) {
-        $usernameErr = "Username is required.";
-    } else {
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-    }
+    $data = login($_POST);
 
-    if (empty($_POST['password'])) {
-        $passwordErr = "Password is required.";
-    } else {
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
-    }
+    $username = $data['username'];
+    $password = $data['password'];
 
-    if (empty($usernameErr) && empty($passwordErr)) {
-        $admin_result = mysqli_query($conn, "SELECT * FROM admins WHERE username = '$username'");
-        $partner_result = mysqli_query($conn, "SELECT * FROM partners WHERE username = '$username'");
-        $customer_result = mysqli_query($conn, "SELECT * FROM customers WHERE username = '$username'");
-
-        try {
-            if ($admin_result->num_rows > 0) {
-                $data = mysqli_fetch_assoc($admin_result);
-
-                if (password_verify($password, $data['password'])) {
-                    $_SESSION["id"] = $data["id"];
-                    $_SESSION["username"] = $data["username"];
-                    $_SESSION["email"] = $data["email"];
-                    $_SESSION["role"] = $data["role"];
-                    $_SESSION["isLogin"] = true;
-
-                    header("location: /NeoMall/admin/index.php");
-                } else {
-                    $passwordErr = "Invalid password.";
-                }
-            }
-
-            if ($partner_result->num_rows > 0) {
-                $data = mysqli_fetch_assoc($partner_result);
-
-                if (password_verify($password, $data['password'])) {
-                    $_SESSION["id"] = $data["id"];
-                    $_SESSION["username"] = $data["username"];
-                    $_SESSION["email"] = $data["email"];
-                    $_SESSION["phone"] = $data["phone"];
-                    $_SESSION["logo"] = $data["logo"];
-                    $_SESSION["role"] = $data["role"];
-                    $_SESSION["isLogin"] = true;
-
-                    header("location: /NeoMall/brand-partner/index.php");
-                } else {
-                    $passwordErr = "Invalid password.";
-                }
-            }
-
-            if ($customer_result->num_rows > 0) {
-                $data = mysqli_fetch_assoc($customer_result);
-
-                if (password_verify($password, $data['password'])) {
-                    $_SESSION["id"] = $data["id"];
-                    $_SESSION["username"] = $data["username"];
-                    $_SESSION["email"] = $data["email"];
-                    $_SESSION["role"] = $data["role"];
-                    $_SESSION["isLogin"] = true;
-
-                    header("location: /NeoMall/index.php");
-                } else {
-                    $passwordErr = "Invalid password.";
-                }
-            }
-
-            if ($admin_result->num_rows == 0 && $partner_result->num_rows == 0 && $customer_result->num_rows == 0) {
-                $passwordErr = "Account is not available.";
-            }
-        } catch (mysqli_sql_exception) {
-            $passwordErr = "An error occurred.";
-        }
-    }
+    $usernameErr = $data['usernameErr'];
+    $passwordErr = $data['passwordErr'];
 }
 ?>
 
