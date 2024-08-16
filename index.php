@@ -42,7 +42,7 @@ if ($_SESSION) {
                         <div class="text-white">
                             <h1 class="mb-3">Shop Now</h1>
                             <h4 class="mb-3">Discover Your Perfect Match</h4>
-                            <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="#!" role="button">Go to Shop</a>
+                            <a data-mdb-ripple-init class="btn btn-outline-light btn-lg" href="shop/index.php" role="button">Go to Shop</a>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@ if ($_SESSION) {
         <!-- Latest Product -->
         <div class="mt-5">
             <div class="text-dark">
-                <a href="#" class="text-primary float-end my-1" style="font-size: 18px;">View More &raquo;</a>
+                <a href="shop/index.php" class="text-primary float-end my-1" style="font-size: 18px;">View More &raquo;</a>
                 <h2 class="mb-3">Latest Product</h2>
             </div>
             <div class="row mt-3">
@@ -74,9 +74,11 @@ if ($_SESSION) {
                                 <a href="shop/product-details.php?id=<?= $product["id"] ?>" class="text-reset">
                                     <h5 class="card-title mb-3"><?= $product["name"] ?></h5>
                                 </a>
-                                <a href="#" class="text-reset">
-                                    <p><?= getCategoryById($product["category_id"]) ?></p>
-                                </a>
+                                <p>
+                                    <a href="shop/brands.php?id=<?= $product["partner_id"] ?>" class="text-reset"><?= getBrandPartnerById($product["partner_id"]) ?></a>
+                                    <span> | </span>
+                                    <a href="shop/categories.php?id=<?= $product["category_id"] ?>" class="text-reset"><?= getCategoryById($product["category_id"]) ?></a>
+                                </p>
                                 <h6 class="mb-3">Rp<?= $product["price"] ?></h6>
                             </div>
                         </div>

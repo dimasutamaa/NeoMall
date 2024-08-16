@@ -64,3 +64,23 @@ function getCategoryById($data)
 
     return $category;
 }
+
+function getBrandPartnerById($data)
+{
+    global $conn;
+
+    $query = mysqli_query($conn, "SELECT username FROM partners WHERE id = '$data'");
+    $brand_partner = mysqli_fetch_column($query);
+
+    return $brand_partner;
+}
+
+function flash($message, $action, $type)
+{
+    $alert = '<div class="alert alert-' . $type . ' alert-dismissible fade show border border-black" role="alert">
+            <strong>' . $message . '</strong> ' . $action . '
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>';
+
+    return $alert;
+}

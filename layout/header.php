@@ -27,10 +27,20 @@
             if (isset($_SESSION["isLogin"])) {
                 // Customer
                 if ($_SESSION["role"] == "customer") {
-                    echo '<a class="link-secondary me-3" href="#">
-                            <i class="fa-solid fa-cart-shopping fa-lg" style="color: #0c0d0d;"></i>
-                            <span class="badge bg-danger badge-dot"></span>
-                        </a>';
+                    global $conn;
+                    $id = $_SESSION['id'];
+                    $cart = mysqli_query($conn, "SELECT * FROM carts WHERE customer_id = '$id'");
+
+                    if (mysqli_num_rows($cart) > 0) {
+                        echo '<a class="link-secondary me-3" href="#">
+                                <i class="fa-solid fa-cart-shopping fa-lg" style="color: #0c0d0d;"></i>
+                                <span class="badge bg-danger badge-dot"></span>
+                            </a>';
+                    } else {
+                        echo '<a class="link-secondary me-3" href="#">
+                                <i class="fa-solid fa-cart-shopping fa-lg" style="color: #0c0d0d;"></i>
+                            </a>';
+                    }
                 }
                 // Customer
 
