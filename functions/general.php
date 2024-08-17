@@ -84,3 +84,33 @@ function flash($message, $action, $type)
 
     return $alert;
 }
+
+function get_cart()
+{
+    global $conn;
+
+    $items = [];
+    $customer_id = $_SESSION['id'];
+
+    $query = "SELECT c.id, c.quantity, p.name, p.price, p.picture, p.category_id FROM carts c 
+                JOIN customers cu ON c.customer_id = cu.id 
+                JOIN products p ON p.id = c.product_id 
+                WHERE c.customer_id = $customer_id";
+                
+    $cart = mysqli_query($conn, $query);
+
+    while ($row = mysqli_fetch_assoc($cart)) {
+        $items[] = $row;
+    }
+
+    $grand_total = 0;
+
+    foreach ($items as $item) {
+        $grand_total += $item['price'] * $item['quantity'];
+    }
+
+    return [
+        'items' => $items,
+        'grand_total' => $grand_total
+    ];
+}
