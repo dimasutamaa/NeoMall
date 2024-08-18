@@ -55,7 +55,7 @@
                             <a class="dropdown-item" href="#">History</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="user/settings/address.php">Settings</a>
                         </li>';
                 }
                 // Customer
