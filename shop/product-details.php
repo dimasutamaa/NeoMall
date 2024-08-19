@@ -5,7 +5,7 @@ require("../functions/customer.php");
 
 session_start();
 
-$quantityErr = $alert = "";
+$quantityErr = "";
 
 if ($_SESSION) {
     if ($_SESSION["role"] == "admin") {
@@ -30,7 +30,14 @@ if (isset($_GET['id'])) {
             $data = add_to_cart($_POST, $product_id, $customer_id);
 
             $quantityErr = $data['quantityErr'];
-            $alert = $data['alert'];
+
+            if ($data['affectedRows'] > 0) {
+                $_SESSION['alert'] = $data['alert'];
+                header("location: /NeoMall/shop/product-details.php?id=$product_id");
+                exit();
+            } else {
+                $_SESSION['alert'] = $data['alert'];
+            }
         } else {
             header("location: ../account/login.php");
         }
@@ -55,9 +62,7 @@ if (isset($_GET['id'])) {
     <?php include("../layout/header.php") ?>
 
     <div class="container mt-5">
-        <div>
-            <?= $alert ?>
-        </div>
+        <div><?= getAlertMessage() ?></div>
         <div class="py-5">
             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) . "?id=" . $product_id ?>" method="POST">
                 <div class="row gx-1">

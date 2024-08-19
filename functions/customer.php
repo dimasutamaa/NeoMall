@@ -25,7 +25,10 @@ function add_to_cart($data, $product_id, $customer_id)
             $query = "INSERT INTO carts (customer_id, product_id, size, quantity) VALUES ('$customer_id', '$product_id', '$size', '$quantity')";
 
             if ($conn->query($query)) {
-                $alert = flash("Successfully!", "add the product to your cart.", "success");
+                $affectedRows = mysqli_affected_rows($conn);
+                if ($affectedRows > 0) {
+                    $alert = flash("Successfully!", "add the product to your cart.", "success");
+                }
             } else {
                 $alert = flash("Failed!", "add the product to your cart.", "danger");
             }
@@ -37,6 +40,7 @@ function add_to_cart($data, $product_id, $customer_id)
     return [
         'quantityErr' => $quantityErr,
         'alert' => $alert,
+        'affectedRows' => $affectedRows ?? 0
     ];
 }
 
@@ -79,7 +83,10 @@ function change_password($data, $id)
             $query = "UPDATE customers SET password = '$hashed_new_password' WHERE id = '$id'";
 
             if ($conn->query($query)) {
-                $alert = flash("Successfully!", "Change your password.", "success");
+                $affectedRows = mysqli_affected_rows($conn);
+                if ($affectedRows > 0) {
+                    $alert = flash("Successfully!", "Changed your password.", "success");
+                }
             } else {
                 $alert = flash("Failed!", "to change your password.", "danger");
             }
@@ -95,7 +102,8 @@ function change_password($data, $id)
         'confirm_password' => $confirm_password,
         'currentPassErr' => $currentPassErr,
         'newPasswordErr' => $newPasswordErr,
-        'confirmPassErr' => $confirmPassErr
+        'confirmPassErr' => $confirmPassErr,
+        'affectedRows' => $affectedRows ?? 0
     ];
 }
 
@@ -191,7 +199,8 @@ function set_address($data, $id)
         'lastNameErr' => $lastNameErr,
         'addressErr' => $addressErr,
         'emailErr' => $emailErr,
-        'phoneErr' => $phoneErr
+        'phoneErr' => $phoneErr,
+        'affectedRows' => mysqli_affected_rows($conn)
     ];
 }
 
@@ -207,7 +216,7 @@ function delete_cart_item($id)
     $result = mysqli_query($conn, "DELETE FROM carts WHERE id = $id");
 
     if ($result) {
-        $alert = flash("Successfully!", "Removed " . '<strong>'.$product_name.'</strong>' . " from your cart.", "success");
+        $alert = flash("Successfully!", "Removed " . '<strong>' . $product_name . '</strong>' . " from your cart.", "success");
     } else {
         $alert = flash("Failed!", "to delete cart item.", "success");
     }

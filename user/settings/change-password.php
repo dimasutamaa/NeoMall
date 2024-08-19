@@ -6,7 +6,7 @@ require("../../functions/customer.php");
 session_start();
 
 $current_password = $new_password = $confirm_password = "";
-$currentPassErr = $newPasswordErr = $confirmPassErr = $alert = "";
+$currentPassErr = $newPasswordErr = $confirmPassErr = "";
 
 if ($_SESSION["role"] == "admin") {
     header("location: /NeoMall/admin/index.php");
@@ -33,9 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newPasswordErr = $data['newPasswordErr'];
     $confirmPassErr = $data['confirmPassErr'];
 
-    if ($data['alert']) {
-        $alert = $data['alert'];
-        $current_password = $new_password = "";
+    if ($data['affectedRows'] > 0) {
+        $_SESSION['alert'] = $data['alert'];
+        header("location: /NeoMall/user/settings/change-password.php");
+        exit();
+    } else {
+        $_SESSION['alert'] = $data['alert'];
     }
 }
 
@@ -58,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include("../../layout/header.php") ?>
 
     <div class="container mt-5">
-        <div><?= $alert ?></div>
+        <div><?= getAlertMessage() ?></div>
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

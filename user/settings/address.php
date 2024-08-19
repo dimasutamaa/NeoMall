@@ -6,7 +6,7 @@ require("../../functions/customer.php");
 session_start();
 
 $first_name = $last_name = $address = $email = $phone = $additional_information = "";
-$firstNameErr = $lastNameErr = $addressErr = $emailErr = $phoneErr = $alert = "";
+$firstNameErr = $lastNameErr = $addressErr = $emailErr = $phoneErr = "";
 
 if ($_SESSION["role"] == "admin") {
     header("location: /NeoMall/admin/index.php");
@@ -27,8 +27,6 @@ $customer_address = mysqli_fetch_assoc($query);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = set_address($_POST, $customer_id);
 
-    $alert = $data['alert'];
-
     $first_name = $data['first_name'];
     $last_name = $data['last_name'];
     $address = $data['address'];
@@ -41,6 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $addressErr = $data['addressErr'];
     $emailErr = $data['emailErr'];
     $phoneErr = $data['phoneErr'];
+
+    if ($data['affectedRows'] > 0) {
+        $_SESSION['alert'] = $data['alert'];
+        header("location: /NeoMall/user/settings/address.php");
+        exit();
+    } else {
+        $_SESSION['alert'] = $data['alert'];
+    }
 }
 ?>
 
@@ -61,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include("../../layout/header.php") ?>
 
     <div class="container mt-5">
-        <div><?= $alert ?></div>
+        <div><?= getAlertMessage() ?></div>
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

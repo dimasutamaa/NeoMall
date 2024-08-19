@@ -27,6 +27,8 @@ if (isset($_GET['id'])) {
         $_SESSION['alert'] = $data['alert'];
         header("location: /NeoMall/cart.php");
         exit();
+    } else {
+        $_SESSION['alert'] = $data['alert'];
     }
 }
 ?>
