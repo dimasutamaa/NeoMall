@@ -21,7 +21,7 @@ if (!$_SESSION["isLogin"]) {
 }
 
 $customer_id = $_SESSION['id'];
-$query = mysqli_query($conn, "SELECT * FROM customer_addresses WHERE id = '$customer_id'");
+$query = mysqli_query($conn, "SELECT * FROM customer_addresses WHERE customer_id = '$customer_id'");
 $customer_address = mysqli_fetch_assoc($query);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

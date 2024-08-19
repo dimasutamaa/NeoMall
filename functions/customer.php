@@ -155,7 +155,7 @@ function set_address($data, $id)
     }
 
     if (empty($firstNameErr) && empty($lastNameErr) && empty($addressErr) && empty($emailErr) && empty($phoneErr)) {
-        $customer = mysqli_query($conn, "SELECT * FROM customer_addresses WHERE id = '$id'");
+        $customer = mysqli_query($conn, "SELECT * FROM customer_addresses WHERE customer_id = '$id'");
 
         if (mysqli_num_rows($customer) > 0) {
             $query = "UPDATE customer_addresses SET first_name = '$first_name', last_name = '$last_name', 
