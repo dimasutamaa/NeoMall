@@ -1,6 +1,7 @@
 <?php
 include("config.php");
 require("functions/general.php");
+require("functions/customer.php");
 
 session_start();
 
@@ -19,6 +20,15 @@ $data = get_cart();
 $items = $data['items'];
 $grand_total = $data['grand_total'];
 
+if (isset($_GET['id'])) {
+    $data = delete_cart_item($_GET['id']);
+
+    if ($data['affectedRows'] > 0) {
+        $_SESSION['alert'] = $data['alert'];
+        header("location: /NeoMall/cart.php");
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,12 +49,14 @@ $grand_total = $data['grand_total'];
 
     <section class="h-100 h-custom">
         <div class="container py-5 h-100">
+            <div><?= getAlertMessage() ?></div>
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12">
                     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
                         <div class="card-body p-0">
                             <div class="row g-0">
                                 <div class="col-lg-8">
+                                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post"></form>
                                     <div class="p-5">
                                         <div class="d-flex justify-content-between align-items-center mb-5">
                                             <h1 class="fw-bold mb-0">Shopping Cart</h1>
@@ -82,7 +94,7 @@ $grand_total = $data['grand_total'];
                                                         <h6 class="mb-0">Rp<?= $item['price'] * $item['quantity'] ?></h6>
                                                     </div>
                                                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                        <a href="#" class="text-muted"><i class="fas fa-times"></i></a>
+                                                        <a href="cart.php?id=<?= $item['id'] ?>" class="text-muted"><i class="fas fa-times"></i></a>
                                                     </div>
                                                 </div>
 
@@ -138,5 +150,6 @@ $grand_total = $data['grand_total'];
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </html>

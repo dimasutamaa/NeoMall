@@ -194,3 +194,26 @@ function set_address($data, $id)
         'phoneErr' => $phoneErr
     ];
 }
+
+function delete_cart_item($id)
+{
+    $alert = "";
+
+    global $conn;
+
+    $query = mysqli_query($conn, "SELECT p.name FROM carts c JOIN products p ON p.id = c.product_id WHERE c.id = $id");
+    $product_name = mysqli_fetch_column($query);
+
+    $result = mysqli_query($conn, "DELETE FROM carts WHERE id = $id");
+
+    if ($result) {
+        $alert = flash("Successfully!", "Removed " . '<strong>'.$product_name.'</strong>' . " from your cart.", "success");
+    } else {
+        $alert = flash("Failed!", "to delete cart item.", "success");
+    }
+
+    return [
+        'alert' => $alert,
+        'affectedRows' => mysqli_affected_rows($conn)
+    ];
+}

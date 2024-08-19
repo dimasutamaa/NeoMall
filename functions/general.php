@@ -114,3 +114,15 @@ function get_cart()
         'grand_total' => $grand_total
     ];
 }
+
+function getAlertMessage()
+{
+    $alert = "";
+
+    if (isset($_SESSION['alert'])) {
+        $alert = $_SESSION['alert'];
+        unset($_SESSION['alert']);
+    }
+
+    return $alert;
+}
