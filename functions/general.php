@@ -103,15 +103,15 @@ function get_cart()
         $items[] = $row;
     }
 
-    $grand_total = 0;
+    $total = 0;
 
     foreach ($items as $item) {
-        $grand_total += $item['price'] * $item['quantity'];
+        $total += $item['price'] * $item['quantity'];
     }
 
     return [
         'items' => $items,
-        'grand_total' => $grand_total
+        'total' => $total
     ];
 }
 

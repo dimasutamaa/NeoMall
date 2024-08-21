@@ -18,7 +18,7 @@ if ($_SESSION) {
 $data = get_cart();
 
 $items = $data['items'];
-$grand_total = $data['grand_total'];
+$total = $data['total'];
 
 if (isset($_GET['id'])) {
     $data = delete_cart_item($_GET['id']);
@@ -120,7 +120,7 @@ if (isset($_GET['id'])) {
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <h5 class="text-uppercase">Subtotal</h5>
-                                            <h5>Rp<?= $grand_total ?></h5>
+                                            <h5>Rp<?= $total ?></h5>
                                         </div>
 
                                         <h5 class="text-uppercase mb-3">Shipping</h5>
@@ -135,7 +135,7 @@ if (isset($_GET['id'])) {
 
                                         <div class="d-flex justify-content-between mb-5">
                                             <h5 class="text-uppercase">Total price</h5>
-                                            <h5>Rp<?= $grand_total ?></h5>
+                                            <h5>Rp<?= $total ?></h5>
                                         </div>
 
                                         <button type="submit" class="btn btn-dark btn-block btn-lg <?= (empty($items)) ? 'disabled' : '' ?>">Checkout</button>
