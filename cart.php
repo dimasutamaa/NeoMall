@@ -52,6 +52,12 @@ if (isset($_GET['id'])) {
     <section class="h-100 h-custom">
         <div class="container py-5 h-100">
             <div><?= getAlertMessage() ?></div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                </ol>
+            </nav>
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12">
                     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
@@ -118,23 +124,20 @@ if (isset($_GET['id'])) {
                                         <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                                         <hr class="my-4">
 
+                                        <?php
+                                        foreach ($items as $item) { ?>
+                                            <div class="d-flex justify-content-between mb-4 fw-medium" style="font-size: 19px;">
+                                                <span><?= $item['name'] ?></span>
+                                                <span><?= $item['quantity'] ?> x Rp<?= $item['price'] ?></span>
+                                            </div>
+                                        <?php } ?>
+
+                                        <?php if (!empty($items)) { ?>
+                                            <hr class="my-4">
+                                        <?php } ?>
+
                                         <div class="d-flex justify-content-between mb-4">
-                                            <h5 class="text-uppercase">Subtotal</h5>
-                                            <h5>Rp<?= $total ?></h5>
-                                        </div>
-
-                                        <h5 class="text-uppercase mb-3">Shipping</h5>
-
-                                        <div class="mb-4 pb-2">
-                                            <select class="form-select border border-secondary">
-                                                <option>Shipping Method</option>
-                                            </select>
-                                        </div>
-
-                                        <hr class="my-4">
-
-                                        <div class="d-flex justify-content-between mb-5">
-                                            <h5 class="text-uppercase">Total price</h5>
+                                            <h5 class="text-uppercase">Total</h5>
                                             <h5>Rp<?= $total ?></h5>
                                         </div>
 
@@ -148,7 +151,7 @@ if (isset($_GET['id'])) {
             </div>
         </div>
     </section>
-
+    <?php include("layout/footer.php") ?>
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
