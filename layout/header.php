@@ -81,6 +81,9 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="/NeoMall/admin/manage-category.php">Manage Categories</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/NeoMall/admin/manage-shipping.php">Manage Shipping</a>
                         </li>';
                 }
                 // Admin

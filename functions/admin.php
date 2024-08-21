@@ -346,3 +346,122 @@ function update_partner($data, $id, $row, $upload)
         'logoErr' => $logoErr,
     ];
 }
+
+function add_shipping($data)
+{
+    global $conn;
+
+    $type = $price = "";
+    $typeErr = $priceErr = "";
+
+    try {
+        if (empty($data['type'])) {
+            $typeErr = "Type is required";
+        } else {
+            $type = $data['type'];
+
+            if (!preg_match("/^[a-zA-Z-' ]*$/", $type)) {
+                $typeErr = "Only letters and white space allowed";
+            }
+        }
+
+        if (empty($data['price'])) {
+            $priceErr = "Price is required";
+        } else {
+            $price = $data['price'];
+
+            if (!filter_var($price, FILTER_VALIDATE_INT)) {
+                $priceErr = "Price must be number only";
+            }
+
+            if ($price < 1000) {
+                $priceErr = "Price must be greater than 1000";
+            }
+        }
+
+        if (empty($typeErr) && empty($priceErr)) {
+            $query = "INSERT INTO shippings (type, price) VALUES ('$type', '$price')";
+
+            if ($conn->query($query)) {
+                header("location: /NeoMall/admin/manage-shipping.php");
+            } else {
+                echo "Failed to save data!";
+            }
+        }
+    } catch (mysqli_sql_exception) {
+        $typeErr = "Type has been used";
+    }
+
+    return [
+        'type' => $type,
+        'price' => $price,
+        'typeErr' => $typeErr,
+        'priceErr' => $priceErr
+    ];
+}
+
+function edit_shipping($data, $id)
+{
+    global $conn;
+
+    $type = $price = "";
+    $typeErr = $priceErr = "";
+
+    try {
+        if (empty($data['type'])) {
+            $typeErr = "Type is required";
+        } else {
+            $type = $data['type'];
+
+            if (!preg_match("/^[a-zA-Z-' ]*$/", $type)) {
+                $typeErr = "Only letters and white space allowed";
+            }
+        }
+
+        if (empty($data['price'])) {
+            $priceErr = "Price is required";
+        } else {
+            $price = $data['price'];
+
+            if (!filter_var($price, FILTER_VALIDATE_INT)) {
+                $priceErr = "Price must be number only";
+            }
+
+            if ($price < 1000) {
+                $priceErr = "Price must be greater than 1000";
+            }
+        }
+
+        if (empty($typeErr) && empty($priceErr)) {
+            $query = "UPDATE shippings SET type = '$type', price = '$price' WHERE id = $id";
+
+            if ($conn->query($query)) {
+                header("location: /NeoMall/admin/manage-shipping.php");
+            } else {
+                echo "Failed to save data!";
+            }
+        }
+    } catch (mysqli_sql_exception) {
+        $typeErr = "Type has been used";
+    }
+
+    return [
+        'type' => $type,
+        'price' => $price,
+        'typeErr' => $typeErr,
+        'priceErr' => $priceErr
+    ];
+}
+
+function checkAction($data)
+{
+    $id = isset($data['id']) ? $data['id'] : '';
+
+    if (isset($data['action']) == 'edit') {
+        return '?action=edit&id=' . $id;
+    } else if (isset($data['action']) == 'delete') {
+        return '?action=delete&id=' . $id;
+    } else {
+        return '';
+    }
+}
