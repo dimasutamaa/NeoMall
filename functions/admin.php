@@ -175,7 +175,50 @@ function add_category($data)
         }
 
         if (empty($categoryErr)) {
-            mysqli_query($conn, "INSERT INTO categories (name) VALUES ('$category_name')");
+            $query = "INSERT INTO categories (name) VALUES ('$category_name')";
+
+            if ($conn->query($query)) {
+                header("location: /NeoMall/admin/manage-category.php");
+            } else {
+                echo "Failed to save data!";
+            }
+        }
+    } catch (mysqli_sql_exception) {
+        $categoryErr = "Category name has been used";
+    }
+
+    return [
+        'category_name' => $category_name,
+        'categoryErr' => $categoryErr
+    ];
+}
+
+function edit_category($data, $id)
+{
+    global $conn;
+
+    $category_name = "";
+    $categoryErr = "";
+
+    try {
+        if (empty($data["category_name"])) {
+            $categoryErr = "Category is required";
+        } else {
+            $category_name = $data["category_name"];
+
+            if (!preg_match("/^[a-zA-Z-' ]*$/", $category_name)) {
+                $categoryErr = "Only letters and white space allowed";
+            }
+        }
+
+        if (empty($categoryErr)) {
+            $query = "UPDATE categories SET name = '$category_name' WHERE id = $id";
+
+            if ($conn->query($query)) {
+                header("location: /NeoMall/admin/manage-category.php");
+            } else {
+                echo "Failed to save data!";
+            }
         }
     } catch (mysqli_sql_exception) {
         $categoryErr = "Category name has been used";
