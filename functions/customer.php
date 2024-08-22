@@ -226,3 +226,133 @@ function delete_cart_item($id)
         'affectedRows' => mysqli_affected_rows($conn)
     ];
 }
+
+function checkout($data, $cart)
+{
+    global $conn;
+
+    $first_name = $last_name = $address = $email = $phone = $additional_information = "";
+    $firstNameErr = $lastNameErr = $addressErr = $emailErr = $phoneErr = $alert = "";
+
+    if (empty($data["first_name"])) {
+        $firstNameErr = "Username is required";
+    } else {
+        $first_name = $data["first_name"];
+
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $first_name)) {
+            $firstNameErr = "Only letters and white space allowed";
+        }
+    }
+
+    if (isset($data["last_name"])) {
+        $last_name = $data["last_name"];
+
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $last_name)) {
+            $lastNameErr = "Only letters and white space allowed";
+        }
+    }
+
+    if (empty($data["address"])) {
+        $addressErr = "Address is required";
+    } else {
+        $address = $data["address"];
+    }
+
+    if (empty($data['email'])) {
+        $emailErr = "Email is required.";
+    } else {
+        $email = $data['email'];
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format";
+        }
+    }
+
+    if (empty($data["phone"])) {
+        $phoneErr = "Phone is required";
+    } else {
+        $phone = $data["phone"];
+
+        if (!filter_var($phone, FILTER_VALIDATE_INT)) {
+            $phoneErr = "Phone must be number only";
+        }
+    }
+
+    if (isset($data["additional_information"])) {
+        $additional_information = $data["additional_information"];
+    }
+
+    $customer_id = $_SESSION['id'];
+
+    $shipping_id = $shipping_type = $shippingErr = "";
+    $shipping_price = 0;
+
+    $payment = $data['payment'];
+    $sub_total = $cart['total'];
+    $grand_total = 0;
+
+    if (empty($data['shipping'])) {
+        $shippingErr = "Please choose the shipping method";
+    } else {
+        $shipping_id = $data['shipping'];
+
+        $query = mysqli_query($conn, "SELECT * FROM shippings WHERE id = $shipping_id");
+        $result = mysqli_fetch_assoc($query);
+
+        $shipping_type = $result['type'];
+        $shipping_price = $result['price'];
+    }
+
+    $grand_total = $sub_total + $shipping_price;
+
+    if (empty($firstNameErr) && empty($lastNameErr) && empty($addressErr) && empty($emailErr) && empty($phoneErr) && empty($shippingErr)) {
+        $query = "INSERT INTO orders (customer_id, shipping_type, shipping_price, sub_total, grand_total, payment, first_name, last_name, address, email, phone, additional_info)
+                    VALUES ('$customer_id', '$shipping_type', '$shipping_price', '$sub_total', '$grand_total', '$payment', '$first_name', '$last_name', '$address', '$email', '$phone', '$additional_information')";
+
+        if ($conn->query($query)) {
+            $affectedRows = mysqli_affected_rows($conn);
+            if ($affectedRows > 0) {
+                $query = mysqli_query($conn, "SELECT id FROM orders WHERE customer_id = $customer_id");
+                $order_id = mysqli_fetch_column($query);
+
+                $items = $cart['items'];
+
+                foreach ($items as $item) {
+                    $product_id = $item['product_id'];
+                    $name = $item['name'];
+                    $quantity = $item['quantity'];
+                    $price = $item['price'];
+                    $total = $price * $quantity;
+
+                    $query = "INSERT INTO order_items (order_id, product_id, name, quantity, price, total) 
+                            VALUES ('$order_id', '$product_id', '$name', '$quantity', '$price', '$total')";
+
+                    mysqli_query($conn, $query);
+                }
+
+                mysqli_query($conn, "DELETE FROM carts WHERE customer_id = $customer_id");
+
+                $alert = flash("Thank you!", "Your order has been placed.", "success");
+            } else {
+                $alert = flash("Failed!", "to process your order.", "danger");
+            }
+        }
+    }
+
+    return [
+        'alert' => $alert,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'address' => $address,
+        'email' => $email,
+        'phone' => $phone,
+        'additional_information' => $additional_information,
+        'firstNameErr' => $firstNameErr,
+        'lastNameErr' => $lastNameErr,
+        'addressErr' => $addressErr,
+        'emailErr' => $emailErr,
+        'phoneErr' => $phoneErr,
+        'shippingErr' => $shippingErr,
+        'affectedRows' => $affectedRows ?? 0
+    ];
+}

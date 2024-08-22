@@ -141,7 +141,7 @@ if (isset($_GET['id'])) {
                                             <h5>Rp<?= $total ?></h5>
                                         </div>
 
-                                        <button type="submit" class="btn btn-dark btn-block btn-lg <?= (empty($items)) ? 'disabled' : '' ?>">Checkout</button>
+                                        <a href="checkout.php" type="submit" class="btn btn-dark btn-block btn-lg <?= (empty($items)) ? 'disabled' : '' ?>">Checkout</a href="">
                                     </div>
                                 </div>
                             </div>

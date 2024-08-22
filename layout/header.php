@@ -52,7 +52,7 @@
                 // Customer
                 if ($_SESSION["role"] == "customer") {
                     echo '<li>
-                            <a class="dropdown-item" href="#">History</a>
+                            <a class="dropdown-item" href="user/history.php">History</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="user/settings/address.php">Settings</a>
