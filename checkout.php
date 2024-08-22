@@ -23,6 +23,10 @@ if (!$_SESSION["isLogin"]) {
 $cart = get_cart();
 $total = $cart['total'];
 
+if (empty($cart['items'])) {
+    header("location: /NeoMall/index.php");
+}
+
 $shipping_price = 0;
 $grand_total = 0;
 
