@@ -322,10 +322,11 @@ function checkout($data, $cart)
                     $name = $item['name'];
                     $quantity = $item['quantity'];
                     $price = $item['price'];
+                    $size = $item['size'];
                     $total = $price * $quantity;
 
-                    $query = "INSERT INTO order_items (order_id, product_id, name, quantity, price, total) 
-                            VALUES ('$order_id', '$product_id', '$name', '$quantity', '$price', '$total')";
+                    $query = "INSERT INTO order_items (order_id, product_id, name, quantity, price, size, total, status) 
+                            VALUES ('$order_id', '$product_id', '$name', '$quantity', '$price', '$size', '$total', 'new')";
 
                     mysqli_query($conn, $query);
                 }

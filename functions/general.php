@@ -92,7 +92,7 @@ function get_cart()
     $items = [];
     $customer_id = $_SESSION['id'];
 
-    $query = "SELECT c.id, c.quantity, p.id AS product_id, p.name, p.price, p.picture, p.category_id FROM carts c 
+    $query = "SELECT c.id, c.quantity, p.id AS product_id, p.name, p.price, p.picture, p.category_id, c.size FROM carts c 
                 JOIN customers cu ON c.customer_id = cu.id 
                 JOIN products p ON p.id = c.product_id 
                 WHERE c.customer_id = $customer_id";
