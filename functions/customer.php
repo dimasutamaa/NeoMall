@@ -312,7 +312,7 @@ function checkout($data, $cart)
         if ($conn->query($query)) {
             $affectedRows = mysqli_affected_rows($conn);
             if ($affectedRows > 0) {
-                $query = mysqli_query($conn, "SELECT id FROM orders WHERE customer_id = $customer_id");
+                $query = mysqli_query($conn, "SELECT id FROM orders WHERE customer_id = $customer_id ORDER BY created_at DESC");
                 $order_id = mysqli_fetch_column($query);
 
                 $items = $cart['items'];
