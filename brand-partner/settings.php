@@ -21,7 +21,7 @@ $partner = mysqli_fetch_assoc($query);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["update"])) {
-        $data = settings($_FILES, $partner_id, $partner);
+        $data = change_logo($_FILES, $partner_id, $partner);
 
         $logo = $data['logo'];
         $logoErr = $data['logoErr'];

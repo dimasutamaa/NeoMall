@@ -161,7 +161,7 @@ function update_product($data, $upload, $id, $row)
     ];
 }
 
-function settings($upload, $id, $partner)
+function change_logo($upload, $id, $partner)
 {
     global $conn;
 

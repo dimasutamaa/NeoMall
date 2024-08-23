@@ -64,7 +64,6 @@ if (isset($_GET['id'])) {
                         <div class="card-body p-0">
                             <div class="row g-0">
                                 <div class="col-lg-8">
-                                    <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post"></form>
                                     <div class="p-5">
                                         <div class="d-flex justify-content-between align-items-center mb-5">
                                             <h1 class="fw-bold mb-0">Shopping Cart</h1>
@@ -141,7 +140,7 @@ if (isset($_GET['id'])) {
                                             <h5>Rp<?= $total ?></h5>
                                         </div>
 
-                                        <a href="checkout.php" type="submit" class="btn btn-dark btn-block btn-lg <?= (empty($items)) ? 'disabled' : '' ?>">Checkout</a href="">
+                                        <a href="checkout.php" type="submit" class="btn btn-dark btn-block btn-lg <?= (empty($items)) ? 'disabled' : '' ?>">Checkout</a>
                                     </div>
                                 </div>
                             </div>
