@@ -357,3 +357,48 @@ function checkout($data, $cart)
         'affectedRows' => $affectedRows ?? 0
     ];
 }
+
+function getOrders()
+{
+    global $conn;
+
+    $id = $_SESSION['id'];
+
+    $query = "SELECT DISTINCT O.id, O.grand_total, O.shipping_type, O.created_at 
+                FROM order_items OI JOIN orders O ON OI.order_id = O.id 
+                WHERE O.customer_id = $id ORDER BY O.created_at DESC";
+    $exec = mysqli_query($conn, $query);
+
+    $orders = [];
+
+    while ($row = mysqli_fetch_assoc($exec)) {
+        $orders[] = $row;
+    }
+
+    return ['orders' => $orders];
+}
+
+function getOrderDetails($id)
+{
+    global $conn;
+
+    $queryItems = "SELECT P.picture, OI.name, OI.size, OI.quantity, OI.total, OI.status
+                    FROM order_items OI JOIN products P ON OI.product_id = P.id
+                    WHERE OI.order_id = $id";
+
+    $exec = mysqli_query($conn, $queryItems);
+
+    $items = [];
+
+    while ($row = mysqli_fetch_assoc($exec)) {
+        $items[] = $row;
+    }
+
+    $queryOrder = mysqli_query($conn, "SELECT sub_total, shipping_price, grand_total, created_at FROM orders WHERE id = $id");
+    $order = mysqli_fetch_assoc($queryOrder);
+
+    return [
+        'items' => $items,
+        'order' => $order
+    ];
+}

@@ -16,6 +16,9 @@ if ($_SESSION["role"] == "partner") {
 if (!$_SESSION["isLogin"]) {
     header("location: /NeoMall/index.php");
 }
+
+$data = getOrders();
+$orders = $data['orders'];
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +39,45 @@ if (!$_SESSION["isLogin"]) {
 
     <div class="container mt-5">
         <div><?= getAlertMessage() ?></div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">History</li>
+            </ol>
+        </nav>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="p-3">My Orders</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-responsive align-middle mb-0 bg-white">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th>Orders</th>
+                                    <th>Total</th>
+                                    <th>Shipping</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($orders as $order) { ?>
+                                    <tr>
+                                        <td>#<?= $order['id'] ?></td>
+                                        <td>Rp<?= number_format($order['grand_total']) ?></td>
+                                        <td><?= $order['shipping_type'] ?></td>
+                                        <td><?= date_format(date_create($order['created_at']), 'd M Y') ?></td>
+                                        <td><a href="user/order-details.php?id=<?= $order['id'] ?>">Details</a></td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
