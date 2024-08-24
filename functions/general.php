@@ -96,7 +96,7 @@ function get_cart()
                 JOIN customers cu ON c.customer_id = cu.id 
                 JOIN products p ON p.id = c.product_id 
                 WHERE c.customer_id = $customer_id";
-                
+
     $cart = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_assoc($cart)) {
@@ -125,4 +125,53 @@ function getAlertMessage()
     }
 
     return $alert;
+}
+
+function getAllProducts($category = null)
+{
+    global $conn;
+
+    $checkCategory = $category ? 'WHERE category_id = ' . $category : '';
+
+    $query = mysqli_query($conn, "SELECT * FROM products $checkCategory ORDER BY created_at DESC LIMIT 16");
+
+    while ($product = mysqli_fetch_assoc($query)) {
+        echo '<div class="col-lg-3 col-md-12 mb-4">
+            <div class="card">
+                <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
+                    <img src="' . str_replace('../', '', $product["picture"]) . '" style="width: 310px; height:350px" />
+                    <a href="shop/product-details.php?id=' . $product["id"] . '">
+                        <div class="hover-overlay">
+                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                        </div>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <a href="shop/product-details.php?id=' . $product["id"] . '" class="text-reset">
+                        <h5 class="card-title mb-3">' . $product["name"] . '</h5>
+                    </a>
+                    <p>
+                        <a href="shop/brands.php?id=' . $product["partner_id"] . '" class="text-reset">' . getBrandPartnerById($product["partner_id"]) . '</a>
+                        <span> | </span>
+                        <a href="shop/categories.php?id=' . $product["category_id"] . '" class="text-reset">' . getCategoryById($product["category_id"]) . '</a>
+                    </p>
+                    <h6 class="mb-3">Rp' . $product["price"] . '</h6>
+                </div>
+            </div>
+        </div>';
+    }
+}
+
+function getAllCategories()
+{
+    global $conn;
+
+    $query = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
+    $categories = [];
+
+    while ($row = mysqli_fetch_assoc($query)) {
+        $categories[] = $row;
+    }
+
+    return ['categories' => $categories];
 }

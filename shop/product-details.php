@@ -61,9 +61,15 @@ if (isset($_GET['id'])) {
 <body style="background-color: #eee;">
     <?php include("../layout/header.php") ?>
 
-    <div class="container mt-5">
+    <div class="container mt-5 pb-5">
         <div><?= getAlertMessage() ?></div>
-        <div class="py-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                    <li class="breadcrumb-item"><a href="shop/index.php">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page"><?= $product['name'] ?></li>
+                </ol>
+            </nav>
             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) . "?id=" . $product_id ?>" method="POST">
                 <div class="row gx-1">
                     <div class="col-lg-6">

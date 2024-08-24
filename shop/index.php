@@ -13,6 +13,9 @@ if ($_SESSION) {
         header("location: /NeoMall/brand-partner/index.php");
     }
 }
+
+$data = getAllCategories();
+$categories = $data['categories'];
 ?>
 
 <!DOCTYPE html>
@@ -35,35 +38,37 @@ if ($_SESSION) {
         <div class="mb-3">
             <h2 class="text-dark text-center">Our Products</h2>
         </div>
-        <div class="row mt-3">
-            <?php
-            $query = mysqli_query($conn, "SELECT * FROM products ORDER BY created_at DESC LIMIT 8");
-            while ($product = mysqli_fetch_assoc($query)) { ?>
-                <div class="col-lg-3 col-md-12 mb-4">
-                    <div class="card">
-                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light" data-mdb-ripple-color="light">
-                            <img src="<?= str_replace('../', '', $product["picture"]) ?>" style="width: 310px; height:350px" />
-                            <a href="shop/product-details.php?id=<?= $product["id"] ?>">
-                                <div class="hover-overlay">
-                                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <a href="shop/product-details.php?id=<?= $product["id"] ?>" class="text-reset">
-                                <h5 class="card-title mb-3"><?= $product["name"] ?></h5>
-                            </a>
-                            <p>
-                                <a href="shop/brands.php?id=<?= $product["partner_id"] ?>" class="text-reset"><?= getBrandPartnerById($product["partner_id"]) ?></a>
-                                <span> | </span>
-                                <a href="shop/categories.php?id=<?= $product["category_id"] ?>" class="text-reset"><?= getCategoryById($product["category_id"]) ?></a>
-                            </p>
-                            <h6 class="mb-3">Rp<?= $product["price"] ?></h6>
-                        </div>
+        <!-- Pills navs -->
+        <ul class="nav nav-pills mb-3 mx-auto justify-content-center" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button data-mdb-pill-init class="nav-link active" id="tab-all" type="button" href="#all" role="tab" aria-controls="all" aria-selected="true">All</button>
+            </li>
+            <?php foreach ($categories as $category) { ?>
+                <li class="nav-item" role="presentation">
+                    <button data-mdb-pill-init class="nav-link" id="tab-<?= $category['name'] ?>"
+                        type="button" href="#<?= $category['name'] ?>" role="tab" aria-controls="<?= $category['name'] ?>"
+                        aria-selected="false"><?= $category['name'] ?></button>
+                </li>
+            <?php } ?>
+        </ul>
+        <!-- Pills navs -->
+
+        <!-- Pills content -->
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="tab-all">
+                <div class="row mt-3">
+                    <?php getAllProducts() ?>
+                </div>
+            </div>
+            <?php foreach ($categories as $category) { ?>
+                <div class="tab-pane fade" id="<?= $category['name'] ?>" role="tabpanel" aria-labelledby="tab-<?= $category['name'] ?>">
+                    <div class="row mt-3">
+                        <?php getAllProducts($category['id']) ?>
                     </div>
                 </div>
             <?php } ?>
         </div>
+        <!-- Pills content -->
     </div>
 
     <?php include("../layout/footer.php") ?>
