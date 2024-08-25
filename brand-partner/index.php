@@ -1,6 +1,6 @@
 <?php
 include("../config.php");
-require("../functions/admin.php");
+require("../functions/partner.php");
 
 session_start();
 
@@ -41,7 +41,7 @@ $orders = $data['orders'];
                         <tr>
                             <th>Order Id</th>
                             <th>Customer</th>
-                            <th>Product</th>                        
+                            <th>Product</th>
                             <th>Status</th>
                             <th>Date</th>
                             <th>Action</th>

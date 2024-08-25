@@ -1,6 +1,6 @@
 <?php
 include("../config.php");
-require("../functions/admin.php");
+require("../functions/partner.php");
 
 session_start();
 

@@ -1,6 +1,6 @@
 <?php
 include("../config.php");
-require("../functions/admin.php");
+require("../functions/partner.php");
 
 session_start();
 
@@ -42,9 +42,9 @@ if (isset($_GET['id'])) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                <?php 
+                <?php
                 $prevPage = 'http://localhost/NeoMall/brand-partner/completed-orders.php';
-                if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $prevPage){ 
+                if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $prevPage) {
                     echo '<li class="breadcrumb-item"><a href="completed-orders.php">Completed Orders</a></li>';
                 } ?>
                 <li class="breadcrumb-item active" aria-current="page">Order Details</li>
