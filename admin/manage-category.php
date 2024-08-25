@@ -4,7 +4,7 @@ require("../functions/admin.php");
 
 session_start();
 
-$category_name = "";
+$category_name = $status = "";
 $categoryErr = "";
 
 if (!isset($_SESSION["isLogin"]) || $_SESSION["role"] == "customer") {
@@ -24,12 +24,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = edit_category($_POST, $category_id);
 
+        $status = $data['status'];
         $category_name = $data['category_name'];
         $categoryErr = $data['categoryErr'];
     }
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = add_category($_POST);
 
+    $status = $data['status'];
     $category_name = $data['category_name'];
     $categoryErr = $data['categoryErr'];
 }
@@ -65,6 +67,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
                             <?php $checkName = isset($row['name']) ? $row['name'] : $category_name ?>
                             <input type="text" class="form-control" id="category_name" name="category_name" value="<?= $checkName ?>">
                             <div id="categoryErr" class="form-text text-danger"><?= $categoryErr ?></div>
+                        </div>
+                        <div class="mx-3 mb-2">
+                            <label for="status" class="form-label m-0">Show on Shop</label>
+                            <?php $checkStatus = isset($row['status']) ? $row['status'] : $status ?>
+                            <select class="form-select" name="status" id="status">
+                                <option value="Yes" <?= $checkStatus == 'Yes' ? 'selected' : '' ?>>Yes</option>
+                                <option value="No" <?= $checkStatus == 'No' ? 'selected' : '' ?>>No</option>
+                            </select>
                         </div>
                         <div class="m-3">
                             <button type="submit" class="btn btn-primary">Save</button>

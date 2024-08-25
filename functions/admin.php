@@ -163,6 +163,8 @@ function add_category($data)
     $category_name = "";
     $categoryErr = "";
 
+    $status = $data['status'];
+
     try {
         if (empty($data["category_name"])) {
             $categoryErr = "Category is required";
@@ -174,8 +176,8 @@ function add_category($data)
             }
         }
 
-        if (empty($categoryErr)) {
-            $query = "INSERT INTO categories (name) VALUES ('$category_name')";
+        if (empty($categoryErr) && empty($statusErr)) {
+            $query = "INSERT INTO categories (name, status) VALUES ('$category_name', '$status')";
 
             if ($conn->query($query)) {
                 header("location: /NeoMall/admin/manage-category.php");
@@ -188,6 +190,7 @@ function add_category($data)
     }
 
     return [
+        'status' => $status,
         'category_name' => $category_name,
         'categoryErr' => $categoryErr
     ];
@@ -200,6 +203,8 @@ function edit_category($data, $id)
     $category_name = "";
     $categoryErr = "";
 
+    $status = $data['status'];
+
     try {
         if (empty($data["category_name"])) {
             $categoryErr = "Category is required";
@@ -211,8 +216,8 @@ function edit_category($data, $id)
             }
         }
 
-        if (empty($categoryErr)) {
-            $query = "UPDATE categories SET name = '$category_name' WHERE id = $id";
+        if (empty($categoryErr) && empty($statusErr)) {
+            $query = "UPDATE categories SET name = '$category_name', status = '$status' WHERE id = $id";
 
             if ($conn->query($query)) {
                 header("location: /NeoMall/admin/manage-category.php");
@@ -225,6 +230,7 @@ function edit_category($data, $id)
     }
 
     return [
+        'status' => $status,
         'category_name' => $category_name,
         'categoryErr' => $categoryErr
     ];

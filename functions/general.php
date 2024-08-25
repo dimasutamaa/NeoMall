@@ -166,7 +166,7 @@ function getAllCategories()
 {
     global $conn;
 
-    $query = mysqli_query($conn, "SELECT * FROM categories ORDER BY name ASC");
+    $query = mysqli_query($conn, "SELECT * FROM categories WHERE status = 'Yes' ORDER BY name ASC");
     $categories = [];
 
     while ($row = mysqli_fetch_assoc($query)) {
