@@ -63,7 +63,7 @@
                 // Brand Partner
                 if ($_SESSION["role"] == "partner") {
                     echo '<li>
-                            <a class="dropdown-item" href="#">Completed Orders</a>
+                            <a class="dropdown-item" href="/NeoMall/brand-partner/completed-orders.php">Completed Orders</a>
                         </li>
                         <li>
                             <a class="dropdown-item" href="/NeoMall/brand-partner/manage-product.php">Manage Products</a>

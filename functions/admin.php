@@ -566,3 +566,23 @@ function update_status($data, $id)
         echo 'error';
     }
 }
+
+function getCompletedOrders(){
+    global $conn;
+
+    $partner_id = $_SESSION['id'];
+
+    $query = "SELECT DISTINCT OI.id, O.id AS order_id, O.first_name, O.last_name, O.email, OI.name, OI.status, O.created_at 
+            FROM order_items OI JOIN orders O ON OI.order_id = o.id 
+            JOIN products P ON OI.product_id = P.id
+            WHERE P.partner_id = '$partner_id' AND OI.status = 'completed' ORDER BY OI.created_at DESC";
+
+    $orders = [];
+
+    $exec = mysqli_query($conn, $query);
+    while ($row = mysqli_fetch_assoc($exec)) {
+        $orders[] = $row;
+    }
+
+    return ['orders' => $orders];
+}

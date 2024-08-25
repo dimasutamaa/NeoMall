@@ -42,6 +42,11 @@ if (isset($_GET['id'])) {
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                <?php 
+                $prevPage = 'http://localhost/NeoMall/brand-partner/completed-orders.php';
+                if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] == $prevPage){ 
+                    echo '<li class="breadcrumb-item"><a href="completed-orders.php">Completed Orders</a></li>';
+                } ?>
                 <li class="breadcrumb-item active" aria-current="page">Order Details</li>
             </ol>
         </nav>
@@ -107,15 +112,16 @@ if (isset($_GET['id'])) {
                     <div class="card-body">
                         <div class="row">
                             <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) . '?id=' . $id ?>" method="POST">
+                                <?php $isCompleted = ($order['status'] == 'completed') ? 'disabled' : '' ?>
                                 <div class="col">
                                     <p style="font-size: 20px;">Order Status</p>
-                                    <select class="form-select border border-secondary" name="status" id="status">
+                                    <select class="form-select border border-secondary" <?= $isCompleted ?> name="status" id="status">
                                         <option value="new" <?= ($order['status'] == 'new') ? 'selected' : '' ?>>New</option>
                                         <option value="inProgress" <?= ($order['status'] == 'inProgress') ? 'selected' : '' ?>>In Progress</option>
                                         <option value="completed" <?= ($order['status'] == 'completed') ? 'selected' : '' ?>>Completed</option>
                                     </select>
                                     <div class="mt-3">
-                                        <button type="submit" class="btn btn-primary text-uppercase">Update</button>
+                                        <button type="submit" class="btn btn-primary text-uppercase" <?= $isCompleted ?>>Update</button>
                                     </div>
                                 </div>
                             </form>
