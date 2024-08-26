@@ -402,3 +402,39 @@ function getOrderDetails($id)
         'order' => $order
     ];
 }
+
+function update_cart_item_quantity($itemId, $quantity)
+{
+    global $conn;
+
+    $alert = "";
+
+    $query = mysqli_query($conn, "SELECT P.name FROM carts C JOIN products P ON C.product_id = P.id WHERE C.id = $itemId");
+    $product_name = mysqli_fetch_column($query);
+
+    if ($quantity > 0) {
+        $query = "UPDATE carts SET quantity = $quantity WHERE id = $itemId";
+
+        if ($conn->query($query)) {
+            $affectedRows = mysqli_affected_rows($conn);
+
+            if ($affectedRows > 0) {
+                $alert = flash("Successfully!", "Updated the quantity of " . '<strong>' . $product_name . '</strong>', "success");
+            } else {
+                $alert = flash("Failed!", "to update the quantity of " . '<strong>' . $product_name . '</strong>', "danger");
+            }
+        }
+    } else {
+        $query = "DELETE FROM carts WHERE id = $itemId";
+
+        if ($conn->query($query)) {
+            $affectedRows = mysqli_affected_rows($conn);
+            $alert = flash("Successfully!", "Removed " . '<strong>' . $product_name . '</strong>' . " from your cart.", "success");
+        }
+    }
+
+    return [
+        'alert' => $alert,
+        'affectedRows' => $affectedRows
+    ];
+}

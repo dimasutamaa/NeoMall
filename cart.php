@@ -31,6 +31,21 @@ if (isset($_GET['id'])) {
         $_SESSION['alert'] = $data['alert'];
     }
 }
+
+if (isset($_POST['update_quantity'])) {
+    $itemId = $_POST['item_id'];
+    $quantity = $_POST['quantity'];
+
+    $data = update_cart_item_quantity($itemId, $quantity);
+
+    if ($data['affectedRows'] > 0) {
+        $_SESSION['alert'] = $data['alert'];
+        header("location: /NeoMall/cart.php");
+        exit();
+    } else {
+        $_SESSION['alert'] = $data['alert'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -84,18 +99,24 @@ if (isset($_GET['id'])) {
                                                         <h6 class="mb-0"><?= $item['name'] ?></h6>
                                                     </div>
                                                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
+                                                        <form class="d-flex" action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
+                                                            <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
 
-                                                        <input id="quantity" min="0" name="quantity" value="<?= $item['quantity'] ?>" type="number"
-                                                            class="form-control form-control-sm" />
+                                                            <button type="button" class="btn btn-link px-2"
+                                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown(); updateQuantity(this)">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
 
-                                                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
+                                                            <input id="quantity" min="0" name="quantity" value="<?= $item['quantity'] ?>" type="number"
+                                                                class="form-control form-control-sm" onchange="updateQuantity(this)" />
+
+                                                            <button type="button" class="btn btn-link px-2"
+                                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp(); updateQuantity(this)">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+
+                                                            <input type="hidden" name="update_quantity" value="1">
+                                                        </form>
                                                     </div>
                                                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                                         <h6 class="mb-0">Rp<?= $item['price'] * $item['quantity'] ?></h6>
@@ -155,5 +176,14 @@ if (isset($_GET['id'])) {
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script>
+    function updateQuantity(element) {
+        const form = element.closest('form');
+        setTimeout(() => {
+            form.submit();
+        }, 300);
+    }
+</script>
 
 </html>
