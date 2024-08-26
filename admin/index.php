@@ -27,31 +27,27 @@ if ($_SESSION["role"] == "partner") {
 <body style="background-color: #eee;">
     <?php include("../layout/header.php") ?>
 
-    <div class="container mt-5" style="width: 800px;">
-        <div class="d-flex justify-content-between align-items-start">
-            <h3 class="mt-2">Brand Partners</h3>
+    <div class="container mt-5">
+        <div class="mb-3">
+            <h3>Brand Partners</h3>
             <a href="/NeoMall/admin/register-partner.php" class="btn btn-primary">Add Partner</a>
         </div>
-        <?php
-        $query = mysqli_query($conn, "SELECT * FROM partners");
-        while ($data = mysqli_fetch_assoc($query)) { ?>
-            <a href="partner-details.php?id=<?= $data["id"] ?>">
-                <div class="bg-light rounded-3 shadow-sm py-3 px-1 mb-3 bg-body-tertiary rounded">
-                    <div class="row">
-                        <div class="col-3">
-                            <img src="<?= $data['logo'] ?>" alt="" height="150px" class="border-end border-secondary border-4 pe-2">
-                        </div>
-                        <div class="col">
-                            <div class="row align-items-center">
-                                <div class="fs-4 my-5">
-                                    <?= $data['username'] ?>
-                                </div>
+        <div class="row">
+            <?php
+            $query = mysqli_query($conn, "SELECT * FROM partners");
+            while ($data = mysqli_fetch_assoc($query)) { ?>
+                <div class="col-lg-3 col-md-12">
+                    <a href="partner-details.php?id=<?= $data["id"] ?>">
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <img src="<?= $data['logo'] ?>" alt="avatar" class="rounded-circle img-fluid" style="width: 150px">
+                                <h5 class="my-3"><?= $data['username'] ?></h5>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            </a>
-        <?php } ?>
+            <?php } ?>
+        </div>
     </div>
 </body>
 

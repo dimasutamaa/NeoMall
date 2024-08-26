@@ -53,18 +53,12 @@ if (isset($_GET["id"])) {
     <?php include("../layout/header.php") ?>
 
     <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]) . "?id=" . $id ?>" method="POST" enctype="multipart/form-data">
-        <div class="container container-sm mt-5 bg-white p-5 rounded-6" style="width: 880px;">
+        <div class="container container-sm mt-5 bg-white p-5 rounded-6 col-md-6">
             <div class="mb-2">
                 <div class="row mb-4">
-                    <div class="col-3">
-                        <img src="<?= $row['logo'] ?>" alt="" height="150px" class="border-end border-secondary border-4 pe-2">
-                    </div>
-                    <div class="col">
-                        <div class="row align-items-center">
-                            <div class="fs-4 my-5">
-                                <?= $row['username'] ?>
-                            </div>
-                        </div>
+                    <div class="card-body fw-medium fs-5">
+                        <img src="<?= $row['logo'] ?>" alt="avatar" class="rounded-circle img-fluid" style="width: 150px">
+                        <span><?= $row['username'] ?></span>
                     </div>
                 </div>
                 <div class="row mb-4">
