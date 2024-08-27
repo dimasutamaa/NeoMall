@@ -438,3 +438,22 @@ function update_cart_item_quantity($itemId, $quantity)
         'affectedRows' => $affectedRows
     ];
 }
+
+function search($search)
+{
+    global $conn;
+
+    $query = "SELECT P.*, C.name AS category_name FROM products P JOIN categories C ON P.category_id = C.id WHERE P.name LIKE '%$search%' OR C.name LIKE '%$search%'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        $products = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $products[] = $row;
+        }
+    } else {
+        $products = [];
+    }
+
+    return ['products' => $products];
+}

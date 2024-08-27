@@ -7,8 +7,8 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <a class="navbar-brand mt-2 mt-lg-0 fs-4 fw-medium" href="/NeoMall/index.php">NeoMall</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-            <form class="d-flex input-group w-auto me-1">
-                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <form class="d-flex input-group w-auto me-1" action="<?= checkRoleForSearch() ?>" method="GET">
+                <input type="search" name="search" id="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                 <span class="input-group-text border-0" id="search-addon">
                     <i class="fas fa-search"></i>
                 </span>
@@ -28,7 +28,7 @@
                 // Customer
                 if ($_SESSION["role"] == "customer") {
                     $cart = get_cart();
-                    
+
                     if (!empty($cart['items'])) {
                         echo '<a class="link-secondary me-3" href="cart.php">
                                 <i class="fa-solid fa-cart-shopping fa-lg" style="color: #0c0d0d;"></i>

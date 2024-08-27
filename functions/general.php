@@ -175,3 +175,14 @@ function getAllCategories()
 
     return ['categories' => $categories];
 }
+
+function checkRoleForSearch()
+{
+    if (isset($_SESSION['role']) == 'customer' || !isset($_SESSION["isLogin"])) {
+        return '/NeoMall/shop/index.php';
+    } else if (isset($_SESSION['role']) == 'admin') {
+        return '/NeoMall/admin/index.php';
+    } else if (isset($_SESSION['role']) == 'partner') {
+        return '/NeoMall/brand-partner/index.php';
+    }
+}
