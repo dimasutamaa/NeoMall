@@ -178,11 +178,16 @@ function getAllCategories()
 
 function checkRoleForSearch()
 {
-    if (isset($_SESSION['role']) == 'customer' || !isset($_SESSION["isLogin"])) {
+    if (isset($_SESSION['role'])) {
+        switch ($_SESSION['role']) {
+            case 'admin':
+                return '/NeoMall/admin/index.php';
+            case 'partner':
+                return '/NeoMall/brand-partner/index.php';
+            default:
+                return '/NeoMall/shop/index.php';
+        }
+    } else {
         return '/NeoMall/shop/index.php';
-    } else if (isset($_SESSION['role']) == 'admin') {
-        return '/NeoMall/admin/index.php';
-    } else if (isset($_SESSION['role']) == 'partner') {
-        return '/NeoMall/brand-partner/index.php';
     }
 }
