@@ -328,3 +328,29 @@ function getCompletedOrders()
 
     return ['orders' => $orders];
 }
+
+function search($search)
+{
+    global $conn;
+
+    $partner_id = $_SESSION['id'];
+
+    $query = "SELECT DISTINCT OI.id, O.id AS order_id, O.first_name, O.last_name, O.email, OI.name, OI.status, O.created_at 
+            FROM order_items OI JOIN orders O ON OI.order_id = o.id 
+            JOIN products P ON OI.product_id = P.id
+            WHERE P.partner_id = '$partner_id' AND (O.id LIKE '%$search%' OR O.first_name LIKE '%$search%' OR O.last_name LIKE '%$search%' OR OI.name LIKE '%$search%')
+            ORDER BY OI.created_at DESC";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        $orders = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $orders[] = $row;
+        }
+    } else {
+        $orders = [];
+    }
+
+    return ['orders' => $orders];
+}
