@@ -514,3 +514,29 @@ function checkAction($data)
         return '';
     }
 }
+
+function search($search)
+{
+    global $conn;
+
+    $query = "SELECT a.username, a.role, a.id 
+                FROM admins a 
+                WHERE a.username LIKE '%$search%' 
+                UNION ALL 
+                SELECT p.username, p.role, p.id 
+                FROM partners p 
+                WHERE p.username LIKE '%$search%'";
+
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        $username = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $username[] = $row;
+        }
+    } else {
+        $username = [];
+    }
+
+    return ['username' => $username];
+}

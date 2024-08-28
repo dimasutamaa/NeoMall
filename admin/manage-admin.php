@@ -1,5 +1,6 @@
 <?php
 include("../config.php");
+require("../functions/admin.php");
 
 session_start();
 
@@ -32,19 +33,19 @@ if ($_SESSION["role"] == "partner") {
             <a class="btn btn-primary mb-4" href="/NeoMall/admin/register-admin.php">Add Admin</a>
         </div>
         <div class="row">
-            <?php 
+            <?php
             $query = mysqli_query($conn, "SELECT * FROM admins");
-            while($data = mysqli_fetch_assoc($query)){ ?>
-            <div class="col-lg-3 col-md-12">
-                <a href="admin-details.php?id=<?php echo $data["id"] ?>">
-                    <div class="card mb-4">
-                        <div class="card-body text-center">
-                            <img src="../assets/images/user-icon.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px" />
-                            <h5 class="my-3"><?php echo $data["username"] ?></h5>
+            while ($data = mysqli_fetch_assoc($query)) { ?>
+                <div class="col-lg-3 col-md-12">
+                    <a href="admin-details.php?id=<?php echo $data["id"] ?>">
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <img src="../assets/images/user-icon.png" alt="avatar" class="rounded-circle img-fluid" style="width: 150px" />
+                                <h5 class="my-3"><?php echo $data["username"] ?></h5>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
             <?php } ?>
         </div>
     </div>
