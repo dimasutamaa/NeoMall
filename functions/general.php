@@ -42,13 +42,10 @@ function upload($path)
         $uploadOk = 0;
     }
 
-    if ($uploadOk == 1) {
-        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
-    }
-
     $data = [
         "uploadErr" => $uploadErr,
         "uploadOk" => $uploadOk,
+        "target_file" => $target_file,
         "filePath" => $uploadOk ? $target_file : null
     ];
 

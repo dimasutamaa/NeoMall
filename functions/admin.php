@@ -287,6 +287,10 @@ function register_partner($data, $upload)
         }
 
         if (empty($usernameErr) && empty($emailErr) && empty($phoneErr) && empty($logoErr)) {
+            if ($result['uploadOk'] == 1) {
+                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $result['target_file']);
+            }
+
             $password = random_password();
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -372,6 +376,10 @@ function update_partner($data, $id, $row, $upload)
         }
 
         if (empty($usernameErr) && empty($emailErr) && empty($phoneErr) && empty($logoErr)) {
+            if ($result['uploadOk'] == 1) {
+                move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $result['target_file']);
+            }
+
             $query = "UPDATE partners SET username = '$username', email = '$email', phone = '$phone', logo = '$logo' WHERE id = $id";
 
             if ($conn->query($query)) {

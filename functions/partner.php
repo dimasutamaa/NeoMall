@@ -57,6 +57,10 @@ function add_product($data, $upload, $partner_id)
     }
 
     if (empty($nameErr) && empty($priceErr) && empty($descriptionErr) && empty($pictureErr) && empty($categoryErr)) {
+        if ($result['uploadOk'] == 1) {
+            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $result['target_file']);
+        }
+
         $query = "INSERT INTO products (partner_id, category_id, name, price, description, picture) 
                     VALUES ('$partner_id', '$category', '$name', '$price', '$description', '$picture')";
 
@@ -138,6 +142,10 @@ function update_product($data, $upload, $id, $row)
     }
 
     if (empty($nameErr) && empty($priceErr) && empty($descriptionErr) && empty($pictureErr) && empty($categoryErr)) {
+        if ($result['uploadOk'] == 1) {
+            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $result['target_file']);
+        }
+
         $query = "UPDATE products SET category_id = '$category', name = '$name', price = '$price', description = '$description', picture = '$picture' WHERE id = '$id'";
 
         if ($conn->query($query)) {
@@ -183,6 +191,10 @@ function change_logo($upload, $id, $partner)
     }
 
     if (empty($logoErr)) {
+        if ($result['uploadOk'] == 1) {
+            move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $result['target_file']);
+        }
+
         $query = "UPDATE partners SET logo = '$logo' WHERE id = '$id'";
 
         if ($conn->query($query)) {
