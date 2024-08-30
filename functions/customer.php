@@ -394,7 +394,7 @@ function getOrderDetails($id)
         $items[] = $row;
     }
 
-    $queryOrder = mysqli_query($conn, "SELECT sub_total, shipping_price, grand_total, created_at FROM orders WHERE id = $id");
+    $queryOrder = mysqli_query($conn, "SELECT customer_id, sub_total, shipping_price, grand_total, created_at FROM orders WHERE id = $id");
     $order = mysqli_fetch_assoc($queryOrder);
 
     return [

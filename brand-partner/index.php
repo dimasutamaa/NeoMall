@@ -39,6 +39,8 @@ $orders = $data['orders'];
 <body style="background-color: #eee;">
     <?php include("../layout/header.php") ?>
     <div class="container mt-5">
+        <div><?= getAlertMessage() ?></div>
+
         <?php if ($results) { ?>
             <p>Search Results for: <?= htmlspecialchars($_GET['search']) ?></p>
             <div class="card">
@@ -128,5 +130,6 @@ $orders = $data['orders'];
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </html>

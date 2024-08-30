@@ -21,6 +21,12 @@ if (isset($_GET["id"])) {
     $query = mysqli_query($conn, "SELECT * FROM products WHERE id = $id");
     $row = mysqli_fetch_assoc($query);
 
+    if($row['partner_id'] != $_SESSION['id']){
+        $_SESSION['alert'] = flash('Ouch!', 'You do not have permission to update the product.', 'warning');
+        header("location: /NeoMall/brand-partner/manage-product.php");
+        exit();
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = update_product($_POST, $_FILES, $id, $row);
 

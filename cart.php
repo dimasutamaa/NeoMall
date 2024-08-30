@@ -5,14 +5,16 @@ require("functions/customer.php");
 
 session_start();
 
-if ($_SESSION) {
-    if ($_SESSION["role"] == "admin") {
-        header("location: /NeoMall/admin/index.php");
-    }
+if ($_SESSION["role"] == "admin") {
+    header("location: /NeoMall/admin/index.php");
+}
 
-    if ($_SESSION["role"] == "partner") {
-        header("location: /NeoMall/brand-partner/index.php");
-    }
+if ($_SESSION["role"] == "partner") {
+    header("location: /NeoMall/brand-partner/index.php");
+}
+
+if (!$_SESSION["isLogin"]) {
+    header("location: /NeoMall/index.php");
 }
 
 $data = get_cart();

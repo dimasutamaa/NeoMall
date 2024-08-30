@@ -293,7 +293,7 @@ function getOrderDetail($id)
 {
     global $conn;
 
-    $query = "SELECT P.id AS product_id, O.id AS order_id, O.first_name, O.last_name, O.email, OI.name, OI.status, 
+    $query = "SELECT P.id AS product_id, P.partner_id, O.id AS order_id, O.first_name, O.last_name, O.email, OI.name, OI.status, 
                 O.address, O.phone, O.additional_info, OI.size, OI.quantity, OI.total, OI.price
                 FROM order_items OI JOIN orders O ON OI.order_id = o.id 
                 JOIN products P ON OI.product_id = P.id

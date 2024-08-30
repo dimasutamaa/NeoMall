@@ -29,6 +29,8 @@ if ($_SESSION["role"] == "admin") {
     <?php include("../layout/header.php") ?>
 
     <div class="container mt-5">
+        <div><?= getAlertMessage() ?></div>
+
         <div class="row d-flex justify-content-center">
             <div class="col col-md-9 col-lg-7 col-xl-6">
                 <div class="card" style="border-radius: 15px;">
@@ -86,5 +88,6 @@ if ($_SESSION["role"] == "admin") {
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.2/mdb.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </html>

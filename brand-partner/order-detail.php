@@ -18,6 +18,12 @@ if (isset($_GET['id'])) {
     $data = getOrderDetail($id);
     $order = $data['order'];
 
+    if($order['partner_id'] != $_SESSION['id']){
+        $_SESSION['alert'] = flash('Ouch!', 'You do not have permission to access the page.', 'warning');
+        header("location: /NeoMall/brand-partner/index.php");
+        exit();
+    }
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         update_status($_POST, $id);
     }

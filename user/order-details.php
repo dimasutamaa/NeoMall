@@ -21,9 +21,15 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     $data = getOrderDetails($id);
-
+    
     $items = $data['items'];
     $order = $data['order'];
+
+    if($order['customer_id'] != $_SESSION['id']){
+        $_SESSION['alert'] = flash('Ouch!', 'You do not have permission to access the page.', 'warning');
+        header("location: /NeoMall/user/history.php");
+        exit();
+    }
 }
 ?>
 
