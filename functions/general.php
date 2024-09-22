@@ -124,13 +124,14 @@ function getAlertMessage()
     return $alert;
 }
 
-function getAllProducts($category = null)
+function getAllProducts($category = null, $limit = null)
 {
     global $conn;
 
     $checkCategory = $category ? 'WHERE category_id = ' . $category : '';
+    $checkLimit = $limit ? 'DESC LIMIT ' . $limit : '';
 
-    $query = mysqli_query($conn, "SELECT * FROM products $checkCategory ORDER BY created_at DESC LIMIT 16");
+    $query = mysqli_query($conn, "SELECT * FROM products $checkCategory ORDER BY created_at $checkLimit");
 
     while ($product = mysqli_fetch_assoc($query)) {
         echo '<div class="col-lg-3 col-md-12 mb-4">
@@ -148,9 +149,9 @@ function getAllProducts($category = null)
                         <h5 class="card-title mb-3">' . $product["name"] . '</h5>
                     </a>
                     <p>
-                        <a href="shop/brands.php?id=' . $product["partner_id"] . '" class="text-reset">' . getBrandPartnerById($product["partner_id"]) . '</a>
+                        <span class="text-reset">' . getBrandPartnerById($product["partner_id"]) . '</span>
                         <span> | </span>
-                        <a href="shop/categories.php?id=' . $product["category_id"] . '" class="text-reset">' . getCategoryById($product["category_id"]) . '</a>
+                        <span class="text-reset">' . getCategoryById($product["category_id"]) . '</span>
                     </p>
                     <h6 class="mb-3">Rp' . $product["price"] . '</h6>
                 </div>

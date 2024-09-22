@@ -66,9 +66,9 @@ $categories = $data['categories'];
                                     <h5 class="card-title mb-3"><?= $product["name"] ?></h5>
                                 </a>
                                 <p>
-                                    <a href="shop/brands.php?id=<?= $product["partner_id"] ?>" class="text-reset"><?= getBrandPartnerById($product["partner_id"]) ?></a>
+                                    <span class="text-reset"><?= getBrandPartnerById($product["partner_id"]) ?></span>
                                     <span> | </span>
-                                    <a href="shop/categories.php?id=<?= $product["category_id"] ?>" class="text-reset"><?= $product["category_name"] ?></a>
+                                    <span class="text-reset"><?= $product["category_name"] ?></span>
                                 </p>
                                 <h6 class="mb-3">Rp<?= $product["price"] ?></h6>
                             </div>

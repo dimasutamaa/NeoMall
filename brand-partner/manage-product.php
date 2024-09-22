@@ -43,7 +43,6 @@ if ($_SESSION["role"] == "admin") {
                                 <h5 class="mb-1"><?= $_SESSION["username"] ?></h5>
                                 <div class="d-flex pt-1 mt-3">
                                     <a href="/NeoMall/brand-partner/add-product.php" class="btn btn-primary me-1 flex-grow-1">New Product</a>
-                                    <button type="button" class="btn btn-outline-primary flex-grow-1">Edit</button>
                                 </div>
                             </div>
                         </div>
@@ -75,9 +74,7 @@ if ($_SESSION["role"] == "admin") {
                             <a href="product-details.php?id=<?= $data["id"] ?>" class="text-reset">
                                 <h5 class="card-title mb-3"><?= $data["name"] ?></h5>
                             </a>
-                            <a href="#" class="text-reset">
-                                <p><?= getCategoryById($data["category_id"]) ?></p>
-                            </a>
+                            <p class="text-reset"><?= getCategoryById($data["category_id"]) ?></p>
                             <h6 class="mb-3">Rp<?= $data["price"] ?></h6>
                         </div>
                     </div>
